@@ -2,26 +2,28 @@
 using namespace std;
 class Solution
 { 
- 
-public:
- 
+ public:
     void shortest_paths(vector<vector<int>>&grid,int n)
     {
         vector<int>dist(n,1e9);
         dist[0]=0;
-        for(int i=0;i<n;i++)
+        // realxing n-1 times
+        for(int i=0;i<n-1;i++)
         {
+            // for each value in the given vector of [u,v,wt]
             for(auto it:grid)
             {
                 int u = it[0];
                 int v = it[1];
                 int wt = it[2];
+                // if there exist a better distance and pvs dist of u should not be infinite
                 if(dist[u]!=1e9 && dist[u]+wt<dist[v])
                 {
                     dist[v] = dist[u]+wt; 
                 }                
             }
         }
+        // if negetive cycle exist then it will still reduce for nth traversal
         for(auto it:grid)
             {
                 int u = it[0];
@@ -46,17 +48,9 @@ public:
 // }
 int main() 
 {
-    int n=6;
-    // vector<pair<int,int>>adj[n];
-    // addEdge(adj,3,2,6);
-    // addEdge(adj,5,3,1);
-    // addEdge(adj,0,1,5);
-    // addEdge(adj,1,5,-3);
-    // addEdge(adj,1,2,-2);
-    // addEdge(adj,3,4,-2);
-    // addEdge(adj,2,4,3);
-    vector<vector<int>>grid = {{3,2,6},{5,3,1},{0,1,5},{1,5,-3},{1,2,-2},{3,4,-2},{2,4,3}};
+    int V=6;
+    vector<vector<int>>grid = {{0,1,2},{0,3,5},{0,4,3},{1,0,3},{1,5,6},{1,2,2},{1,3,2},{2,5,1},{2,3,1},{3,4,1},{4,3,2}};
     Solution s1;
-    s1.shortest_paths(grid,n);
+    s1.shortest_paths(grid,V);
 return 0;
 }
